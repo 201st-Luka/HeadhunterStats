@@ -1,0 +1,6 @@
+﻿services:
+  headhunterstats:
+    image: headhunterstats
+    build:
+      context: .
+      dockerfile: HeadhunterStats/Dockerfile
