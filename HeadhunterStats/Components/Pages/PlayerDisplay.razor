@@ -1,0 +1,11 @@
+@page "/Player/{PlayerTag}"
+
+@code {
+    [Parameter] public string PlayerTag { get; set; }
+}
+
+<PageTitle>@PlayerTag on Headhunter Stats</PageTitle>
+
+<h3 class="clash-bold">@PlayerTag</h3>
+
+This page should display the player's stats. The player's tag is @PlayerTag.

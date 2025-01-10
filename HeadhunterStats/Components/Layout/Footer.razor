@@ -1,0 +1,41 @@
+@using HeadhunterStats.Models
+@inject IConfiguration Configuration
+
+@code {
+    private StaticInfo _staticInfo = null!;
+
+    protected override void OnInitialized()
+    {
+        _staticInfo = Configuration.GetSection("StaticInfo").Get<StaticInfo>() ?? throw new InvalidOperationException("StaticInfo not found in appsettings.json");
+    }
+}
+
+<footer class="bg-dark-subtle text-center py-5 mt-auto flex-fill">
+    <div class="container-xxl container-fluid text-center">
+        <p class="clash-regular">
+            This material is unofficial and is not endorsed by Supercell.
+            For more information see Supercell's Fan Content Policy:
+            <a href="https://www.supercell.com/fan-content-policy">
+                www.supercell.com/fan-content-policy
+            </a>.
+        </p>
+        <div class="d-flex justify-content-evenly clash-regular py-3">
+            <a href="/about" target="_blank">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="white"
+                     class="bi
+                        bi-info-circle-fill" viewBox="0 0 16 16">
+                    <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2"/>
+                </svg>
+                About
+            </a>
+            <a href="@_staticInfo.DiscordServer" target="_blank">
+                <img src="svg/discord-mark-white.svg" width="24px" height="24px" alt="Discord">
+                Join the Discord server
+            </a>
+            <a href="@_staticInfo.GithubRepo" target="_blank">
+                <img src="svg/github-mark-white.svg" width="24px" height="24px" alt="Github">
+                Check out the source code on Github
+            </a>
+        </div>
+    </div>
+</footer>

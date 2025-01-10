@@ -1,29 +1,77 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="">HeadhunterStats</a>
-    </div>
-</div>
+﻿@using HeadhunterStats.Models
+@inject IConfiguration Configuration
 
-<input type="checkbox" title="Navigation menu" class="navbar-toggler"/>
+@code {
+    private StaticInfo _staticInfo = null!;
 
-<div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
-    <nav class="nav flex-column">
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
-            </NavLink>
-        </div>
+    protected override void OnInitialized()
+    {
+        _staticInfo = Configuration.GetSection("StaticInfo").Get<StaticInfo>() ?? throw new InvalidOperationException("StaticInfo not found in appsettings.json");
+    }
+}
 
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Counter
-            </NavLink>
-        </div>
+<header class="navbar navbar-expand-lg sticky-top bg-dark-subtle z-3">
+    <nav class="container-xxl container-fluid">
+        <a class="navbar-brand fs-2 d-flex align-items-center clash-regular" href="/">
+            <img src="img/headhunter.png" width="100px" height="100px" alt="">
+            Headhunter<br>
+            Stats
+        </a>
 
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="weather">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Weather
-            </NavLink>
+        <button class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup"
+                aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            @* first group of navbar containing different pages *@
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link fs-5 clash-regular" href="/player">Player</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link fs-5 clash-regular" href="/clan">Clan</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link fs-5 clash-regular" href="/rankings">Rankings</a>
+                </li>
+            </ul>
+
+            @* second group in header containing useful links *@
+            <ul class="navbar-nav ms-md-auto">
+                <li class="nav-item">
+                    <a class="d-flex align-items-center" href="@_staticInfo.DiscordServer" target="_blank">
+                        <img src="svg/discord-mark-white.svg" width="32px" height="32px" alt="Discord">
+                    </a>
+                </li>
+                <li class="nav-item py-2 py-lg-1 col-12 col-lg-auto">
+                    <div class="vr d-none d-lg-flex h-100 mx-lg-2 text-white"></div>
+                    <hr class="d-lg-none my-2 text-white-50">
+                </li>
+                <li class="nav-item">
+                    <a class="d-flex align-items-center" href="@_staticInfo.GithubRepo" target="_blank">
+                        <img src="svg/github-mark-white.svg" width="32px" height="32px" alt="Github">
+                    </a>
+                </li>
+                <li class="nav-item py-2 py-lg-1 col-12 col-lg-auto">
+                    <div class="vr d-none d-lg-flex h-100 mx-lg-2 text-white"></div>
+                    <hr class="d-lg-none my-2 text-white-50">
+                </li>
+                <li class="nav-item">
+                    <a class="d-flex align-items-center" href="/about" target="_blank">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32px" height="32px" fill="white"
+                             class="bi
+                        bi-info-circle-fill" viewBox="0 0 16 16">
+                            <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2"/>
+                        </svg>
+                    </a>
+                </li>
+            </ul>
         </div>
     </nav>
-</div>
+</header>

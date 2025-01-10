@@ -1,10 +1,14 @@
 using HeadhunterStats.Components;
+using HeadhunterStats.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+
+// Register the configuration section
+builder.Services.Configure<StaticInfo>(builder.Configuration.GetSection("StaticInfo"));
 
 var app = builder.Build();
 
