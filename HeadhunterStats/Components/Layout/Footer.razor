@@ -1,21 +1,13 @@
 @using HeadhunterStats.Models
 @inject IConfiguration Configuration
 
-@code {
-    private StaticInfo _staticInfo = null!;
 
-    protected override void OnInitialized()
-    {
-        _staticInfo = Configuration.GetSection("StaticInfo").Get<StaticInfo>() ?? throw new InvalidOperationException("StaticInfo not found in appsettings.json");
-    }
-}
-
-<footer class="bg-dark-subtle text-center py-5 mt-auto flex-fill">
+<footer class="mt-auto bg-dark-subtle text-center py-5 flex-fill">
     <div class="container-xxl container-fluid text-center">
         <p class="clash-regular">
             This material is unofficial and is not endorsed by Supercell.
             For more information see Supercell's Fan Content Policy:
-            <a href="https://www.supercell.com/fan-content-policy">
+            <a href="https://www.supercell.com/fan-content-policy" target="_blank">
                 www.supercell.com/fan-content-policy
             </a>.
         </p>
@@ -39,3 +31,13 @@
         </div>
     </div>
 </footer>
+
+
+@code {
+    private StaticInfo _staticInfo = null!;
+
+    protected override void OnInitialized()
+    {
+        _staticInfo = Configuration.GetSection("StaticInfo").Get<StaticInfo>() ?? throw new InvalidOperationException("StaticInfo not found in appsettings.json");
+    }
+}

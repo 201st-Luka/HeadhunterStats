@@ -32,13 +32,19 @@
             @* first group of navbar containing different pages *@
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link fs-5 clash-regular" href="/player">Player</a>
+                    <NavLink class="nav-link fs-5 clash-regular"
+                       Match="NavLinkMatch.Prefix"
+                       href="/player">Player</NavLink>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link fs-5 clash-regular" href="/clan">Clan</a>
+                    <NavLink class="nav-link fs-5 clash-regular"
+                       Match="NavLinkMatch.Prefix"
+                       href="/clan">Clan</NavLink>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link fs-5 clash-regular" href="/rankings">Rankings</a>
+                    <NavLink class="nav-link fs-5 clash-regular"
+                       Match="NavLinkMatch.Prefix"
+                       href="/rankings">Rankings</NavLink>
                 </li>
             </ul>
 

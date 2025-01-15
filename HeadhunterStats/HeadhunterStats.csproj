@@ -14,12 +14,27 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Presenters\" />
+      <Folder Include="Controllers\" />
       <Folder Include="Views\" />
+      <Folder Include="wwwroot\img\town_halls\" />
     </ItemGroup>
 
     <ItemGroup>
       <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="9.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="System.Text.Json" Version="9.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="ClashOfClans" Version="10.0.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="Components\Parts\Clan\ClanDetails.razor" />
+      <_ContentIncludedByDefault Remove="Components\Parts\Clan\ClanHeader.razor" />
+      <_ContentIncludedByDefault Remove="Components\Parts\Clan\ClanMembers.razor" />
     </ItemGroup>
 
 </Project>

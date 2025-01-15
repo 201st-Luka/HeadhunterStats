@@ -1,0 +1,31 @@
+<div class="d-flex flex-row flex-fill @Class">
+    <button class="clash-regular m-2 flex-fill p-2 border-2 rounded-2 btn btn-dark
+                   @(SelectedVillage == Village.Home ? "active" : "")"
+            @onclick="() => OnVillageSelected(Village.Home)">
+        Home Village
+    </button>
+    <button class="clash-regular m-2 flex-fill p-2 border-2 rounded-2 btn btn-dark
+                   @(SelectedVillage == Village.BuilderBase ? "active" : "")"
+            @onclick="() => OnVillageSelected(Village.BuilderBase)">
+        Builder Base
+    </button>
+    <button class="clash-regular m-2 flex-fill p-2 border-2 rounded-2 btn btn-dark
+                   @(SelectedVillage == Village.ClanCapital ? "active" : "")"
+            @onclick="() => OnVillageSelected(Village.ClanCapital)">
+        Clan Capital
+    </button>
+</div>
+
+
+@code {
+    [Parameter] public required EventCallback<Village> OnVillageSelectedCallback { get; set; }
+    [Parameter] public string Class { get; set; } = "";
+
+    private Village SelectedVillage { get; set; } = Village.Home;
+
+    private async Task OnVillageSelected(Village village)
+    {
+        SelectedVillage = village;
+        await OnVillageSelectedCallback.InvokeAsync(village);
+    }
+}

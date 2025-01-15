@@ -1,0 +1,55 @@
+@page "/Clan/{ClanTag}"
+
+@attribute [StreamRendering]
+
+@inject IClans Clans
+
+
+<PageTitle>
+    @(Clan == null ? $"Loading Clan {ClanTag} - " : $"{Clan.Name} on ")
+    Headhunter Stats
+</PageTitle>
+
+
+@if (Exception != null)
+{
+    <p class="bg-danger p-2 rounded-2">@Exception.Message</p>
+}
+else if (Clan == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <ClanCard Clan="Clan" OnVillageSelectedCallback="OnVillageSelected" />
+    <MemberList Class="my-3" Members="Clan.MemberList" SelectedVillage="SelectedVillage" />
+}
+
+
+@code {
+    [Parameter] public required string ClanTag { get; set; }
+    private ClashOfClans.Models.Clan? Clan { get; set; }
+    private Exception? Exception { get; set; }
+    private Village SelectedVillage { get; set; } = Village.Home;
+
+    private void OnVillageSelected(Village village)
+    {
+        SelectedVillage = village;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            Clan = await Clans.GetClanAsync(ClanTag);
+        }
+        catch (ArgumentException e)
+        {
+            Exception = e;
+        }
+        catch (ClashOfClansException e)
+        {
+            Exception = e;
+        }
+    }
+}

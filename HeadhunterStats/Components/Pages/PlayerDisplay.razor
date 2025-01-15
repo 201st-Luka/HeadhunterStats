@@ -1,11 +1,48 @@
 @page "/Player/{PlayerTag}"
 
+@attribute [StreamRendering]
+
+@inject IPlayers Players
+
 @code {
-    [Parameter] public string PlayerTag { get; set; }
+    [Parameter] public required string PlayerTag { get; set; }
+
+    private ClashOfClans.Models.Player? Player { get; set; }
+    private Exception? Exception { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            Player = await Players.GetPlayerAsync(PlayerTag);
+        }
+        catch (ArgumentException e)
+        {
+            Exception = e;
+        }
+        catch (ClashOfClansException e)
+        {
+            Exception = e;
+        }
+    }
 }
 
-<PageTitle>@PlayerTag on Headhunter Stats</PageTitle>
+<PageTitle>
+    @(Player == null ? $"Loading Player {PlayerTag} - " : $"{Player.Name} on ")
+    Headhunter Stats
+</PageTitle>
 
-<h3 class="clash-bold">@PlayerTag</h3>
+@if (Exception != null)
+{
+    <p class="bg-danger p-2 rounded-2">@Exception.Message</p>
+}
+else if (Player == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <h3 class="clash-bold">@Player.Name</h3>
+    <p>Player tag: <a>@Player.Tag</a></p>
+}
 
-This page should display the player's stats. The player's tag is @PlayerTag.

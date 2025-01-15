@@ -1,3 +1,4 @@
+using ClashOfClans.Core;
 using HeadhunterStats.Components;
 using HeadhunterStats.Models;
 
@@ -9,6 +10,16 @@ builder.Services.AddRazorComponents()
 
 // Register the configuration section
 builder.Services.Configure<StaticInfo>(builder.Configuration.GetSection("StaticInfo"));
+
+// Register ClashOfClans service
+builder.Services.AddClashOfClans(options =>
+{
+    var clashOptions = new ClashOfClansOptionsV2();
+    builder.Configuration.GetSection(ClashOfClansOptions.ClashOfClans).Bind(clashOptions);
+
+    options.Tokens.AddRange(clashOptions.Tokens);
+    options.MaxRequestsPerSecond = clashOptions.MaxRequestsPerSecond;
+});
 
 var app = builder.Build();
 

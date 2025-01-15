@@ -1,0 +1,71 @@
+<div class="card @Class">
+    <div class="card-header d-flex flex-row justify-content-evenly">
+        <div class="align-self-center">Members: @Members.Count/50</div>
+        <button class="btn btn-dark">Sorting button</button>
+    </div>
+    <div class="card-body">
+        <table class="table table-striped table-hover align-middle">
+            <tbody>
+            @{var i = 1;}
+            @foreach (var member in Members.OrderBy(m => m.Trophies).Reverse())
+            {
+                var rankDiff = member.PreviousClanRank - member.ClanRank;
+                var rankDiffClass = rankDiff > 0 ? "text-success" : "text-danger";
+                var rankDiffSign = rankDiff > 0 ? "+" : "";
+
+                <tr onclick="window.location=window.location.origin + '/player/' + encodeURIComponent('@member.Tag')">
+                    <td class="clash-regular">
+                        @if (rankDiff == 0)
+                        {
+                            <text>@(i++).</text>
+                        }
+                        else
+                        {
+                            <div class="d-inline">@(i++).</div>
+                            <div class="d-inline @rankDiffClass">@rankDiffSign@rankDiff</div>
+                        }
+
+                    </td>
+                    <td>
+                        <img src="@member.League.IconUrls.Tiny" alt="@member.League.Name"/>
+                    </td>
+                    <td>
+                        <img src="img/town_halls/town-hall-@(member.TownHallLevel).png"
+                             width="36px" height="36px" alt="@member.TownHallLevel"/>
+                    </td>
+                    <td class="d-flex flex-column">
+                        <div class="clash-regular">@member.Name</div>
+                        <div>@member.Role</div>
+                    </td>
+                    <td>+@member.Donations</td>
+                    <td>-@member.DonationsReceived</td>
+                    <td class="clash-regular">
+                        @{
+                            switch (SelectedVillage)
+                            {
+                                case Village.Home:
+                                    <text>@member.Trophies</text>
+                                    break;
+                                case Village.BuilderBase:
+                                    @member.BuilderBaseTrophies
+                                    break;
+                                default:
+                                    <text>No API data</text>
+                                    break;
+                            }
+                        }
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+@code
+{
+    [Parameter] public required List<ClanMember> Members { get; set; }
+    [Parameter] public string Class { get; set; } = "";
+    [Parameter] public Village SelectedVillage { get; set; } = Village.Home;
+}

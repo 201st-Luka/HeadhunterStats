@@ -10,12 +10,12 @@
     <link rel="stylesheet" href="@Assets["HeadhunterStats.styles.css"]"/>
     <link rel="stylesheet" href="css/clash-fonts.css"/>
     <ImportMap/>
-    <link rel="icon" type="image/png" href="favicon.ico"/>
+    <link rel="icon" type="image/ico" href="favicon.ico"/>
     <HeadOutlet/>
 </head>
 
-<body>
-<Routes/>
+<body class="d-flex flex-column min-vh-100">
+<Routes @rendermode="InteractiveServer" />
 <script src="_framework/blazor.web.js"></script>
 <script src="@Assets["lib/bootstrap/dist/js/bootstrap.bundle.js"]"></script>
 </body>

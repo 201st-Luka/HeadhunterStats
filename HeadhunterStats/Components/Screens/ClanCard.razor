@@ -1,0 +1,100 @@
+@using Humanizer
+
+
+<div class="card @Class">
+    <VillageSelector Class="card-header"
+                     OnVillageSelectedCallback="OnVillageSelected" />
+    <div class="card-body">
+        <div class="d-flex flex-row">
+            <div class="d-flex flex-column align-items-center justify-content-evenly">
+                <img src="@Clan.BadgeUrls.Medium"
+                     class="m-2 pointer"
+                     width="@(ShowDescription ? ImageSize : ImageSize * ScaleFactor)"
+                     height="@(ShowDescription ? ImageSize : ImageSize * ScaleFactor)"
+                     alt="Description"
+                     @onclick="() => ShowDescription = true"/>
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     width="@(ShowDescription ? StatsSize * ScaleFactor : StatsSize)"
+                     height="@(ShowDescription ? StatsSize * ScaleFactor : StatsSize)"
+                     fill="currentColor"
+                     class="bi bi-graph-up-arrow m-2 pointer"
+                     viewBox="0 0 16 16"
+                     @onclick="() => ShowDescription = false">
+                    <path fill-rule="evenodd" d="M0 0h1v15h15v1H0zm10 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4.9l-3.613 4.417a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61L13.445 4H10.5a.5.5 0 0 1-.5-.5"/>
+                </svg>
+            </div>
+            <div class="d-flex flex-column w-50">
+                <h4 class="clash-regular card-title">@Clan.Name</h4>
+                <h5 class="card-subtitle">@Clan.Tag</h5>
+                <p class="card-text">@Clan.Description</p>
+                @if (Clan.Labels.Count > 0)
+                {
+                    <div class="d-flex flex-row justify-content-evenly mt-auto">
+                        @foreach (var label in Clan.Labels)
+                        {
+                            <img src="@label.IconUrls.Medium" width="48px" height="48px" alt="@label.Name"/>
+                        }
+                    </div>
+                }
+            </div>
+            <div class="vr"></div>
+            <ul class="list-group list-group-flush p-2 w-50 ">
+                <li class="list-group-item d-flex flex-row justify-content-between">
+                    <div>Clan War League</div>
+                    <div>@Clan.WarLeague.Name</div>
+                </li>
+                <li class="list-group-item d-flex flex-row justify-content-between">
+                    <div>Total points</div>
+                    <div>@Clan.ClanPoints</div>
+                </li>
+                <li class="list-group-item d-flex flex-row justify-content-between">
+                    <div>Clan Location</div>
+                    <div>@(Clan.Location == null ? "N/A" : Clan.Location.Name)</div>
+                </li>
+                <li class="list-group-item d-flex flex-row justify-content-between">
+                    <div>Chat Language</div>
+                    <div>@(Clan.ChatLanguage == null ? "N/A" : Clan.ChatLanguage.Name)</div>
+                </li>
+                <li class="list-group-item d-flex flex-row justify-content-between">
+                    <div>Type</div>
+                    <div>@Clan.Type.Humanize()</div>
+                </li>
+                <li class="list-group-item d-flex flex-row justify-content-between">
+                    <div>Required Trophies</div>
+                    <div>@Clan.RequiredTrophies</div>
+                </li>
+                <li class="list-group-item d-flex flex-row justify-content-between">
+                    <div>Required Town Hall level</div>
+                    <div>@Clan.RequiredTownhallLevel</div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="card-footer d-flex flex-row justify-content-evenly">
+        <button class="clash-regular m-2 p-2 border-2 rounded-2 btn btn-dark w-25">
+            War Log
+        </button>
+    </div>
+</div>
+
+
+@code {
+    [Parameter] public required ClashOfClans.Models.Clan Clan { get; set; }
+    [Parameter] public string Class { get; set; } = "";
+    [Parameter] public EventCallback<Village> OnVillageSelectedCallback { get; set; }
+
+    private const float ScaleFactor = 0.75f;
+    private const int ImageSize = 100,
+                      StatsSize = ImageSize * 3 / 4;
+
+    private Village SelectedVillage { get; set; }
+    private bool ShowDescription { get; set; } = true;
+
+
+    private async Task OnVillageSelected(Village village)
+    {
+        SelectedVillage = village;
+
+        await OnVillageSelectedCallback.InvokeAsync(village);
+    }
+}

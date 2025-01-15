@@ -4,3 +4,9 @@
     build:
       context: .
       dockerfile: HeadhunterStats/Dockerfile
+    environment:
+      - ClashOfClans__Tokens__0=token0
+      - DOTNET_ENVIRONMENT=Production
+    ports:
+      - "80:80"
+      - "443:443"
